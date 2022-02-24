@@ -1,0 +1,69 @@
+version: '3.3'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: smartlab_mosquitto
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ../01-mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ../01-mosquitto/users:/mosquitto/config/users
+      - /home/dux/Smartlab/data/mosquitto/data:/mosquitto/data
+      - /home/dux/Smartlab/data/mosquitto/log:/mosquitto/log
+    restart: always
+
+  influxdb:
+    image: influxdb:latest
+    container_name: smartlab_influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - type: bind
+        source: /home/dux/Smartlab/data/influxdb/data
+        target: /var/lib/influxdb2
+      - type: bind
+        source: /home/dux/Smartlab/data/influxdb/config
+        target: /etc/influxdb2
+    env_file:
+      - ./influxdb.env
+    restart: always
+
+  telegraf:
+    image: telegraf:latest
+    container_name: smartlab_telegraf
+    ports:
+      - 8125:8125/udp
+    volumes:
+      - ../02-telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    env_file:
+      - ./telegraf.env
+    depends_on:
+      - influxdb
+      - mosquitto
+    restart: always
+
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: grafana
+  #   depends_on:
+  #     - influxdb
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - /home/dux/Smartlab/data/grafana:/var/lib/grafana
+  #   env_file:
+  #     - ./grafana.env
+  #   restart: always
+
+  # mqttbridge:
+  #   build: ../02-bridge
+  #   image: smartlab/mqttbridge
+  #   container_name: smartlab_mqttbridge
+  #   depends_on:
+  #     - mosquitto
+  #     - influxdb
+  #   env_file:
+  #     - ./mqttbridge.env
+  #   restart: always
