@@ -53,7 +53,7 @@ Now replace the given location within the file `00-docker/docker-compose.yml` an
 
 Next the enviromental files have to be created. Fist start by setting up Influxdb:
 ```sh
-   nano influxdb.env
+nano influxdb.env
 ```
 In this file add:
 ```sh
