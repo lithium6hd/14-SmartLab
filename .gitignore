@@ -1,2 +1,6 @@
 .DS_Store
 01-mosquitto/users
+00-docker/grafana.env
+00-docker/influxdb.env
+00-docker/mqttbridge.env
+00-docker/telegraf.env
