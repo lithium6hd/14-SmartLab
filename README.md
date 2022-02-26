@@ -34,20 +34,20 @@ with `brew install docker docker-compose`.
 For Linux (Ubuntu or other Debian based), just use `apt install`:
 
 ```sh
-   sudo apt install docker.io
-   sudo apt install docker-compose
+sudo apt install docker.io
+sudo apt install docker-compose
 ```
 For anything else, follow the [official instructions](https://docs.docker.com/install/).
 
 ## Setup your server
 Given your desired storage location `{DataDir}` you first need to create a number of folders for data storage. The folders that need to be created are given here:
 ```sh
-   mkdir {DataDir}/mosquitto
-   mkdir {DataDir}/mosquitto/data
-   mkdir {DataDir}/mosquitto/log
-   mkdir {DataDir}/influxdb
-   mkdir {DataDir}/influxdb/data
-   mkdir {DataDir}/influxdb/config
+mkdir {DataDir}/mosquitto
+mkdir {DataDir}/mosquitto/data
+mkdir {DataDir}/mosquitto/log
+mkdir {DataDir}/influxdb
+mkdir {DataDir}/influxdb/data
+mkdir {DataDir}/influxdb/config
 ```
 Now replace the given location within the file `00-docker/docker-compose.yml` and update them to match the chosen `{DataDir}`. Remember, that if you are using windows the file system uses "\" instead of "/". Thus the `{DataDir}` has to be created using "\". This does not apply to the folders the file system is mapped to using docker (eg. everything behind ":").
 
@@ -57,43 +57,43 @@ Next the enviromental files have to be created. Fist start by setting up Influxd
 ```
 In this file add:
 ```sh
-   DOCKER_INFLUXDB_INIT_USERNAME=
-   DOCKER_INFLUXDB_INIT_PASSWORD=
-   DOCKER_INFLUXDB_INIT_ORG=
-   DOCKER_INFLUXDB_INIT_BUCKET=
+DOCKER_INFLUXDB_INIT_USERNAME=
+DOCKER_INFLUXDB_INIT_PASSWORD=
+DOCKER_INFLUXDB_INIT_ORG=
+DOCKER_INFLUXDB_INIT_BUCKET=
 ```
 Next we will set up Telegraf:
 ```sh
-   nano telegraf.env
+nano telegraf.env
 ```
 With the content:
 ```sh
-   INFLUX_TOKEN=(needs to be added later)
-   INFLUX_URL=http://:8086
-   INFLUX_ORG=
-   INFLUX_BUCKET=
-   MQTT_SERVER=tcp://:1883
+INFLUX_TOKEN=(needs to be added later)
+INFLUX_URL=http://:8086
+INFLUX_ORG=
+INFLUX_BUCKET=
+MQTT_SERVER=tcp://:1883
 ```
 
 Within the file `02-telegraf/telegraf.conf` you can edit the names of the tags associated to the MQTT input. In this case they are chosen to be `Experiment/Device/Measurement`.
 
 You can now start the Smartlab installation using:
 ```sh
-   docker-compose up -d
+docker-compose up -d
 ```
 To check weather all containers are runnign you can use:
 ```sh
-   docker ps
+docker ps
 ```
 Logs for a given container can be found using:
 ```sh
-   docker logs {Container Name}
+docker logs {Container Name}
 ```
 
 To finish the installation we now need to access influxdb at the given url at port 8086. Within the Data menu you can add and edit API Tokens. You will need to generate one token and add it to the `telegraf.env` file.
 Now restart the Smartlab installation using:
 ```sh
-   docker-compose up -d --force-recreate
+docker-compose up -d --force-recreate
 ```
 The Installation should now be able to receive data to MQTT and store it within InfluxDB.
 
