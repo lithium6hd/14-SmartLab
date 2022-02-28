@@ -13,7 +13,7 @@ def connect_mqtt():
             print("Failed to connect, return code %d\n",rc)
 
     client = mqtt_client.Client(client_id)
-    client.username_pw_set("smartlab", "TtSwjSstVDGB")
+    # client.username_pw_set("smartlab", "TtSwjSstVDGB")
     client.on_connect = on_connect
     client.connect(broker,port)
     return client
