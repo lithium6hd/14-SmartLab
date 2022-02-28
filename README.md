@@ -49,7 +49,7 @@ mkdir {DataDir}/influxdb
 mkdir {DataDir}/influxdb/data
 mkdir {DataDir}/influxdb/config
 ```
-Now replace the given location within the file `00-docker/docker-compose.yml` and update them to match the chosen `{DataDir}`. Remember, that if you are using windows the file system uses `\` instead of `/`. Thus the `{DataDir}` has to be created using `\`. This does not apply to the folders the file system is mapped to using docker (eg. everything behind ":").
+Now replace the given location within the file `00-docker/docker-compose.yml` and update them to match the chosen `{DataDir}`. Remember, that if you are using windows the file system uses `\` instead of `/`. Thus the `{DataDir}` has to be created using `\`. This does not apply to the folders the file system is mapped to using docker (everything behind `:`).
 
 Next the enviromental files have to be created. Fist start by setting up Influxdb:
 ```sh
