@@ -20,10 +20,10 @@ serial_port = ''
 baud_rate = 9600  # In arduino, Serial.begin(baud_rate)
 ser = serial.Serial(serial_port, baud_rate)
 
-broker = '147.142.19.112'
+broker = ''
 port = 1883
-topic = "altes/Feschbach_Water_Interlock/Flow_In"
-client_id = "Feschbach_Water_Interlock"
+topic = "//"
+client_id = ""
 
 
 def connect_mqtt():
@@ -34,7 +34,7 @@ def connect_mqtt():
             print("Failed to connect, return code %d\n", rc)
 
     client = mqtt_client.Client(client_id)
-    client.username_pw_set("smartlab", "TtSwjSstVDGB")
+    #client.username_pw_set("", "")
     client.on_connect = on_connect
     client.connect(broker, port)
     return client
