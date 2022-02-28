@@ -1,9 +1,9 @@
 from paho.mqtt import client as mqtt_client
 
-broker = '147.142.19.112'
+broker = 'IP'
 port = 1883
-topic = "altes/Feschbach_Water_Interlock/"
-client_id = "Feschbach_Water_Interlock"
+topic = "//"
+client_id = ""
 
 def connect_mqtt():
     def on_connect(client,userdata,flags,rc):
@@ -13,7 +13,7 @@ def connect_mqtt():
             print("Failed to connect, return code %d\n",rc)
 
     client = mqtt_client.Client(client_id)
-    # client.username_pw_set("smartlab", "TtSwjSstVDGB")
+    # client.username_pw_set("", "")
     client.on_connect = on_connect
     client.connect(broker,port)
     return client
