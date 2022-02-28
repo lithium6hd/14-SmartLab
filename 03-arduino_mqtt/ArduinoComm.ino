@@ -10,10 +10,10 @@ byte mac[] = { 0x90, 0xA2, 0xDA, 0x10, 0x05, 0x1F };
 IPAddress ip(196, 168, 178, 71);
 
 // Set yout topic here
-const char* topic = "altes/test/arduino"
+const char* topic = "//"
 
 // Make sure to leave out the http and slashes!
-const char* server = "147.142.19.112";
+const char* server = "IP";
 
 // Ethernet and MQTT related objects
 EthernetClient ethClient;
@@ -34,7 +34,7 @@ void setup()
   mqttClient.setServer(server, 1883);
 
   // Attempt to connect to the server with the ID "myClientID"
-  if (mqttClient.connect("Arduino01","smartlab","TtSwjSstVDGB"))
+  if (mqttClient.connect("Arduino01"))
   {
     Serial.println("Connection has been established, well done");
 
