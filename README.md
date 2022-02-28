@@ -51,7 +51,7 @@ mkdir {DataDir}/influxdb/config
 ```
 Now replace the given location within the file `00-docker/docker-compose.yml` and update them to match the chosen `{DataDir}`. Remember, that if you are using windows the file system uses `\` instead of `/`. Thus the `{DataDir}` has to be created using `\`. This does not apply to the folders the file system is mapped to using docker (everything behind `:`).
 
-Next the enviromental files have to be created. Fist start by setting up Influxdb:
+Next the enviromental files have to be created. Fist start by movin into the folder `cd 00-docker` and start setting up Influxdb:
 ```sh
 nano influxdb.env
 ```
@@ -77,8 +77,15 @@ MQTT_SERVER=tcp://:1883
 
 Within the file `02-telegraf/telegraf.conf` you can edit the names of the tags associated to the MQTT input. In this case they are chosen to be `Experiment/Device/Measurement`.
 
+Create an empty password file inside the folder `cd ../01-mosquitto` by
+```sh
+nano passwords
+```
+and saving it without entering anything.
+
 You can now start the Smartlab installation using:
 ```sh
+cd ../00-docker
 docker-compose up -d
 ```
 To check weather all containers are runnign you can use:
