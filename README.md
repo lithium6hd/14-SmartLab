@@ -88,7 +88,7 @@ You can now start the Smartlab installation using:
 cd ../00-docker
 docker-compose up -d
 ```
-To check weather all containers are runnign you can use:
+To check wether all containers are runnign you can use:
 ```sh
 docker ps
 ```
