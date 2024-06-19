@@ -115,13 +115,10 @@ void setup() {
     Serial.println("HTU31D configured");
   }
 
-  for (size_t i : sensorsPT1000) {
-    SensorPT1000 sensor = sensorsPT1000[i];
+  for (SensorPT1000 sensor : sensorsPT1000) {
+    sensor.sensor.begin(MAX31865_3WIRE);
+    sensor.connected = sensor.sensor.readFault() == 0x00;
   }
-
-  Serial.println("Setup MAX31865");
-  pt1000_01.begin(MAX31865_3WIRE);
-  has_pt1000_01 = pt1000_01.readFault() == 0x00;
 }
 
 void loop() {
@@ -173,8 +170,16 @@ void loop() {
                 humidity_event_htu.relative_humidity);
   }
 
-  if (has_pt1000_01)
-    write_value(&mqtt_client, MQTT_TOPIC_PT1000_01_TEMP,
-                pt1000_01.temperature(RNOMINAL, PT1000_RREF));
+  for (SensorPT1000 sensor : sensorsPT1000) {
+    sensor.connected = sensor.sensor.readFault() == 0x00;
+    if (sensor.connected) {
+      write_value(
+        &mqtt_client,
+        sensor.topic,
+        sensor.sensor.temperature(PT1000_RNOMINAL, PT1000_RREF)
+      );
+    }
+  }
+
   delay(MEASUREMENT_PERIOD);
 }
