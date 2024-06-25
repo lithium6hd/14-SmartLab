@@ -126,20 +126,13 @@ void loop() {
     digitalWrite(LED_BUILTIN, LOW);
     Serial.println("Connection closed or client unavailable");
     Serial.println("Try connecting...");
-    connection_retry_counter++;
     if (!mqtt_client.connect(MQTT_CLIENT_ID)) {
       // Failed to reconnect. Either try again in 5 seconds
       // or enter endless loop.
       Serial.println("Unable to connect to MQTT");
-      if (connection_retry_counter >= MAX_RETRY_COUNT) {
-        Serial.println("Unable to reconnect after multiple attempts");
-        // Enter endless loop with blinking led
-        display_error_led();
-      } else {
-        Serial.println("Retry connection in 5 seconds");
-        delay(5000);
-        return;
-      }
+      Serial.println("Retry connection in 5 seconds");
+      delay(5000);
+      return;
     } else {
       Serial.println("Reconnected to MQTT");
     }
@@ -161,7 +154,6 @@ void loop() {
                   pressure_event_dps.pressure);
     }
   }
-
   if (has_htu) {
     sensors_event_t temp_event_htu, humidity_event_htu;
     htu.getEvent(&humidity_event_htu, &temp_event_htu);
